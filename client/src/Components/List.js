@@ -1,5 +1,7 @@
 import React from 'react'
 
+import { Card } from 'reactstrap';
+
 const List = ({product}) => {
 
 
@@ -7,21 +9,25 @@ const List = ({product}) => {
 	let result = null;
 
 	if(product.term === true){
-			result = (<><li> Agree-  Yes</li></>)
+			result = (<><p> Agree-  Yes</p></>)
 		}
 		else{
-			result = (<><li>Agree- No</li></>)
+			result = (<><p>Agree- No</p></>)
 		}
 
 
 
   return (
 	<div className="col-6">
-		<ul>
-        <li>Name - {product.name}  </li>
-		<li>Selector -{product.category.name} </li>
+		
+		<Card>
+        <p>Name - {product.name}  </p>
+		<p>Selector -{product.category.name} </p>
 		{result}
-    	</ul>
+		</Card>
+
+		<br/>
+   
 	</div>
   )
 }

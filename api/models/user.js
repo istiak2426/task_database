@@ -16,12 +16,8 @@ const userSchema = Schema({
         required: true,
         minlength: 5,
         maxlength: 1024,
-    },
-    role: {
-        type: String,
-        enum: ['user', 'admin'],
-        default: 'admin',
     }
+
 }, { timestamps: true });
 
 userSchema.methods.generateJWT = function () {

@@ -21,21 +21,10 @@ module.exports.getProductsAll = async(req, res) =>{
 }
 
 
-module.exports.deleteItem = async (req, res) => {
- 
-    const deletedId = req.params._id;
-    const deleteData = await Add.Product(deletedId)
-    return res.status(200).send(deleteData);
-}
 
 
-module.exports.editItem = async (req, res) => {
- 
-    const editId = req.params._id;
-    const editData = await Product.findByIdAndUpdate(editId, req.body)
-    const savedEdit=  await People.findById(editId);
-    return res.status(200).send(savedEdit);
-}
+
+
 
 
 

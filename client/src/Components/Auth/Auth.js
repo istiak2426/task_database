@@ -145,7 +145,8 @@ class Auth extends Component {
            
         }
         return (
-            <div>
+            <div className='container'>
+                
                 {error}
                 {form}
             </div>

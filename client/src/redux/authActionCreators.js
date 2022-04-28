@@ -47,7 +47,7 @@ export const auth = (email, password, mode) => dispatch => {
     if (mode === "Sign Up") {
         authUrl = `${url}/api/user/signup`
     } else {
-        authUrl = `${url}/api/user/signin`;
+        authUrl = `${url}/api/user/login`;
     }
 
     axios.post(authUrl, authData)

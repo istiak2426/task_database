@@ -5,15 +5,11 @@ const API = "http://localhost:3001/api"
 
 export const createCategory = ( data ) => {
 
-
-
     return axios.post(`${API}/category`, data)
 }
 
 export const createProduct = (data, term) => {
-
-
-    return axios.post(`${API}/product`, {
+     return axios.post(`${API}/product`, {
 
         name:data.name,
         category:data.category,

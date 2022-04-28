@@ -16,17 +16,10 @@ module.exports.createCategory = async (req, res) => {
     })
 }
 
-module.exports.editItem = async (req, res) => {
- 
-    const editId = req.params._id;
-    const editData = await Product.findByIdAndUpdate(editId, req.body)
-    const savedEdit=  await People.findById(editId);
-    return res.status(200).send(savedEdit);
-}
+
 
 module.exports.getCategories = async (req, res) => {
     const categories = await Category.find()
-        .select({ _id: 1, name: 1 })
-        .sort({ name: 1 });
+  
     return res.status(200).send(categories);
 }

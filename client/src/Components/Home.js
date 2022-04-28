@@ -2,7 +2,7 @@ import React, { useEffect } from 'react'
 import { useState } from "react";
 import List from "./List"
 
-import { createProduct, getCategories, getProducts } from './apiCalls';
+import {createCategory, createProduct, getCategories, getProducts } from './apiCalls';
 
 
 const Home = () => {
@@ -13,6 +13,10 @@ const Home = () => {
     const [values, setValues] = useState({
         name: '',
         category: '',
+    });
+
+    const [ selector, setSelector]= useState({
+        select:''
     });
 
 
@@ -34,6 +38,8 @@ const Home = () => {
 
     const {name,category} = values;
 
+    const {select}= selector;
+
     const handleChange = (e) => {
             setValues({
                 ...values,
@@ -41,15 +47,28 @@ const Home = () => {
         });
     }
 
+
     const handleSubmit = (e) => {
         e.preventDefault();
-
-        console.log(values);
-     
 
         createProduct(values, term)
         setValues({name: '',category: ''})
         setTerm(!term)
+    }
+
+    
+    const handleChangeSelector = (e) => {
+        setSelector({
+            [e.target.name]: e.target.value,
+    });
+}
+
+
+    const submitSelector = (e) => {
+        e.preventDefault();
+        createCategory(selector)
+        setSelector({select: ''})
+       
     }
 
 
@@ -96,11 +115,39 @@ const Home = () => {
         </form>
     );
 
+
+    const categoryForm = () => (
+        <form className="mb-3"
+            onSubmit={submitSelector}
+        >
+            <div className="form-group">
+                <label className="text-muted">Selector:</label>
+                <input
+                    name="name"
+                    onChange={handleChangeSelector}
+                    type="text"
+                    className="form-control"
+                    value={select}
+                    required
+                />
+            </div>
+
+
+            <br />
+
+            <button className="btn btn-outline-primary" type="submit" >Save</button>
+        </form>
+    );
+
     return (
-        <div>
-            <div className="row">
-                <div className="col-6 ml-4">
-                    <p>Please enter your name and pick the Sectors you are currently involved in.</p>
+       
+    
+            <div className="row ">
+                <div className="col-6 ml-3">
+
+                    <br/>
+                    <br/>
+                    <h5>Please enter your name and pick the Sectors you are currently involved in.</h5>
 
                     {productForm()}
                     <br />
@@ -112,10 +159,19 @@ const Home = () => {
                     ))}
                 </div>
                 <div className="col-4 ">
-                    {/* <UserLinks/> */}
+                    <br/>
+                    <br/>
+
+                    <h5>Create Selector</h5>
+               
+<br/>
+               {categoryForm()}
+
+
                 </div>
             </div>
-        </div>
+        
+    
     );
 };
 

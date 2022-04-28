@@ -47,9 +47,10 @@ const Main = (props)=> {
         return (
             <div>
                 <Menu />
-                <div className="container">
+                <div className='container'>
                     {routes}
-                </div>
+               
+            </div>
             </div>
         )
     
