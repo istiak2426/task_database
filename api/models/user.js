@@ -3,12 +3,7 @@ const Joi = require('joi');
 const jwt = require('jsonwebtoken');
 
 const userSchema = Schema({
-    name: {
-        type: String,
-        required: true,
-        minlength: 3,
-        maxlenth: 100,
-    },
+
     email: {
         type: String,
         required: true,
@@ -34,14 +29,13 @@ userSchema.methods.generateJWT = function () {
         _id: this._id,
         email: this.email,
         role: this.role,
-        name: this.name
     }, process.env.JWT_SECRET_KEY, { expiresIn: "7d" });
     return token;
 }
 
 const validateUser = user => {
     const schema = Joi.object({
-        name: Joi.string().min(3).max(100).required(),
+
         email: Joi.string().min(5).max(255).required(),
         password: Joi.string().min(5).max(255).required(),
     });

@@ -21,49 +21,29 @@ module.exports.getProductsAll = async(req, res) =>{
 }
 
 
+module.exports.deleteItem = async (req, res) => {
+ 
+    const deletedId = req.params._id;
+    const deleteData = await Add.Product(deletedId)
+    return res.status(200).send(deleteData);
+}
 
-module.exports.getProductById = async (req, res) => {
-    const productId = req.params.id;
-    const product = await Product.findById(productId)
 
-    if (!product) res.status(404).send("Not Found!");
-    return res.status(200).send(product);
+module.exports.editItem = async (req, res) => {
+ 
+    const editId = req.params._id;
+    const editData = await Product.findByIdAndUpdate(editId, req.body)
+    const savedEdit=  await People.findById(editId);
+    return res.status(200).send(savedEdit);
 }
 
 
 
-module.exports.updateProductById = async (req, res) => {
-    const productId = req.params.id;
-    const product = await Product.findById(productId);
-    let form = new formidable.IncomingForm();
-    form.keepExtensions = true;
-    form.parse(req, (err, fields, files) => {
-        if (err) return res.status(400).send("Something wrong!");
-        const updatedFields = _.pick(fields, ["name", "description", "price", "category", "quantity"]);
-        _.assignIn(product, updatedFields);
 
-        if (files.photo) {
-            fs.readFile(files.photo.path, (err, data) => {
-                if (err) return res.status(400).send("Something wrong!");
-                product.photo.data = data;
-                product.photo.contentType = files.photo.type;
-                product.save((err, result) => {
-                    if (err) return res.status(500).send("Something failed!");
-                    else return res.status(200).send({
-                        message: "Product Updated Successfully!"
-                    })
-                })
-            })
-        } else {
-            product.save((err, result) => {
-                if (err) return res.status(500).send("Something failed!");
-                else return res.status(200).send({
-                    message: "Product Updated Successfully!"
-                })
-            })
-        }
-    })
-}
+
+
+
+
 
 
 

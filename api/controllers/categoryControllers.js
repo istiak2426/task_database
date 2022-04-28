@@ -1,6 +1,7 @@
 const _ = require('lodash');
 const { Category, validate } = require('../models/category');
 
+
 module.exports.createCategory = async (req, res) => {
     const { error } = validate(_.pick(req.body, ["name"]));
     if (error) return res.status(400).send(error.details[0].message);
@@ -13,6 +14,14 @@ module.exports.createCategory = async (req, res) => {
             name: result.name
         }
     })
+}
+
+module.exports.editItem = async (req, res) => {
+ 
+    const editId = req.params._id;
+    const editData = await Product.findByIdAndUpdate(editId, req.body)
+    const savedEdit=  await People.findById(editId);
+    return res.status(200).send(savedEdit);
 }
 
 module.exports.getCategories = async (req, res) => {

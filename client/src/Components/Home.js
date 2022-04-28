@@ -2,86 +2,60 @@ import React, { useEffect } from 'react'
 import { useState } from "react";
 import List from "./List"
 
-import { createCategory, createProduct, getCategories, getProducts } from './apiCalls';
+import { createProduct, getCategories, getProducts } from './apiCalls';
 
 
 const Home = () => {
 
     const [products, setProducts] = useState([]);
-     const [term, setTerm] = useState(false);
-     const [categories, setCategories] = useState([])
-
+    const [categories, setCategories] = useState([])
+    const [term, setTerm] = useState(false);
     const [values, setValues] = useState({
         name: '',
         category: '',
-        disabled: false
     });
 
-    const {
-        name,
-        category,
-        disabled
-    } = values;
+
 
     useEffect(() => {
-
-        
-
 
         getProducts()
             .then((response) => {
                 setProducts(response.data);
             })
-         }, []);
 
-    useEffect(()=>{
         getCategories()
-        .then(response => {
-            setCategories(response.data)
-        })
+            .then(response => {
+                setCategories(response.data)
+            })
 
-    },[])
+    }, [values]);
 
 
+    const {name,category} = values;
 
     const handleChange = (e) => {
-        const value = e.target.value;
-        setValues({
-            ...values,
-            [e.target.name]: value,
-        })
+            setValues({
+                ...values,
+                [e.target.name]: e.target.value,
+        });
     }
-
-
-
-
-
 
     const handleSubmit = (e) => {
         e.preventDefault();
 
-        setValues({
-            ...values,
-            disabled: true,
+        console.log(values);
+     
 
-        })
-
-    	createProduct(values, term)
-            .then(response => {
-                setValues({
-                    ...values,
-                    name: '',
-                    category:'',
-                    disabled: false,
-                })
-                setTerm(!term)
-            })
+        createProduct(values, term)
+        setValues({name: '',category: ''})
+        setTerm(!term)
     }
 
 
     const productForm = () => (
-        <form className="mb-3" 
-        onSubmit={handleSubmit}
+        <form className="mb-3"
+            onSubmit={handleSubmit}
         >
             <div className="form-group">
                 <label className="text-muted">Name:</label>
@@ -103,32 +77,24 @@ const Home = () => {
                         <option value={item._id} key={item._id}>{item.name}</option>
                     ))}
                 </select>
-				<br />
-               
+                <br />
+
             </div>
 
 
             <label>
                 <input type="checkbox"
                     value={term}
-                    onChange={()=>setTerm(!term)}
+                    onChange={() => setTerm(!term)}
                     required
                 />
-               &nbsp;&nbsp; Agree to term
+                &nbsp;&nbsp; Agree to term
             </label>
-
-            <br/>
-
-
             <br />
-            <button className="btn btn-outline-primary" type="submit" disabled={disabled}>Save</button>
+            <br />
+            <button className="btn btn-outline-primary" type="submit" >Save</button>
         </form>
     );
-
-
-
-
-
 
     return (
         <div>
